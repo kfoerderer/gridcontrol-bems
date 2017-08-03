@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" enabled="true" name="de.fzi.osh.forecasting.solar.implementation.SolarPowerForecastingService">
+   <service>
+      <provide interface="de.fzi.osh.forecasting.ForecastingService"/>
+   </service>
+   <reference bind="bindConfigurationService" cardinality="1..1" interface="de.fzi.osh.core.configuration.ConfigurationService" name="ConfigurationService" policy="dynamic" unbind="unbindConfigurationService"/>
+   <reference bind="bindTimeSeriesStorageService" cardinality="1..1" interface="de.fzi.osh.data.storage.timeseries.TimeSeriesStorageService" name="TimeSeriesStorageService" policy="dynamic" unbind="unbindTimeSeriesStorageService"/>
+   <reference bind="bindTimeService" cardinality="1..1" interface="de.fzi.osh.time.TimeService" name="TimeService" policy="dynamic" unbind="unbindTimeService"/>
+   <implementation class="de.fzi.osh.forecasting.solar.implementation.SolarPowerForecastingService"/>
+</scr:component>

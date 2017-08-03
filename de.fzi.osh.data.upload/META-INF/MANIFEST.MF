@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Upload
+Bundle-SymbolicName: de.fzi.osh.data.upload
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: de.fzi.osh.core;bundle-version="1.0.0",
+ de.fzi.osh.data.logging,
+ de.fzi.osh.data.storage.timeseries;bundle-version="1.0.0"
+Import-Package: com.jcraft.jsch,
+ de.fzi.osh.com.fms.datalink,
+ de.fzi.osh.time,
+ org.osgi.service.component.annotations
+Service-Component: OSGI-INF/de.fzi.osh.data.upload.Uploader.xml
+Bundle-ActivationPolicy: lazy

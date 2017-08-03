@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" enabled="true" immediate="true" name="de.fzi.osh.scheduling.Scheduler">
+   <reference bind="bindConfigurationService" cardinality="1..1" interface="de.fzi.osh.core.configuration.ConfigurationService" name="ConfigurationService" policy="dynamic" unbind="unbindConfigurationService"/>
+   <reference bind="bindVnbCommunicationService" cardinality="1..1" interface="de.fzi.osh.com.control.ControlCommunicationService" name="ControlCommunicationService" policy="dynamic" unbind="unbindVnbCommunicationService"/>
+   <reference bind="bindEnabledListenerService" cardinality="1..1" interface="de.fzi.osh.com.enabled.EnabledListenerService" name="EnabledListenerService" policy="dynamic" unbind="unbindEnabledListenerService"/>
+   <reference bind="bindFmsCommunicationService" cardinality="1..1" interface="de.fzi.osh.com.fms.FmsCommunicationService" name="FmsCommunicationService" policy="dynamic" unbind="unbindFmsCommunicationService"/>
+   <reference bind="bindForecastingService" cardinality="1..n" interface="de.fzi.osh.forecasting.ForecastingService" name="ForecastingService" policy="dynamic" unbind="unbindForecastingService"/>
+   <reference bind="bindOptimizationService" cardinality="1..n" interface="de.fzi.osh.optimization.OptimizationService" name="OptimizationService" policy="dynamic" unbind="unbindOptimizationService"/>
+   <reference bind="bindTimeService" cardinality="1..1" interface="de.fzi.osh.time.TimeService" name="TimeService" policy="dynamic" unbind="unbindTimeService"/>
+   <implementation class="de.fzi.osh.scheduling.Scheduler"/>
+</scr:component>

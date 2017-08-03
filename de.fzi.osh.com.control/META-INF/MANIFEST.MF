@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Control
+Bundle-SymbolicName: de.fzi.osh.com.control
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: com.jcraft.jsch,
+ de.fzi.osh.time,
+ org.osgi.service.component.annotations
+Require-Bundle: de.fzi.osh.core
+Bundle-ActivationPolicy: lazy
+Service-Component: OSGI-INF/de.fzi.osh.com.control.implementation.ControlCommunication.xml
+Export-Package: de.fzi.osh.com.control
+Bundle-ClassPath: .

@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Types
+Bundle-SymbolicName: de.fzi.osh.types;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-ClassPath: bin/,
+ .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: org.osgi.framework
+Bundle-ActivationPolicy: lazy
+Export-Package: de.fzi.osh.types.flexibilities,
+ de.fzi.osh.types.math
+DynamicImport-Package: *

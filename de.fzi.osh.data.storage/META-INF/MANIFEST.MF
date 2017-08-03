@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Database
+Bundle-SymbolicName: de.fzi.osh.data.storage;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: org.osgi.framework,
+ org.osgi.service.component.annotations;version="1.2.0"
+Service-Component: OSGI-INF/de.fzi.osh.data.storage.implementation.Database.xml
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: libraries/mysql-connector-java-5.1.40-bin.jar,
+ .
+Export-Package: de.fzi.osh.data.storage
+Require-Bundle: de.fzi.osh.core;bundle-version="1.0.0"

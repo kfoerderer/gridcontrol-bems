@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jawampa"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/de.fzi.osh.wamp"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/de.fzi.osh.core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/de.fzi.osh.device"/>
+	<classpathentry kind="lib" path="libraries/influxdb-java-2.5.jar"/>
+	<classpathentry kind="lib" path="libraries/converter-moshi-2.2.0.jar"/>
+	<classpathentry kind="lib" path="libraries/guava-21.0.jar"/>
+	<classpathentry kind="lib" path="libraries/logging-interceptor-3.7.0.jar"/>
+	<classpathentry kind="lib" path="libraries/moshi-1.4.0.jar"/>
+	<classpathentry kind="lib" path="libraries/okhttp-3.7.0.jar"/>
+	<classpathentry kind="lib" path="libraries/okio-1.12.0.jar"/>
+	<classpathentry kind="lib" path="libraries/retrofit-2.2.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

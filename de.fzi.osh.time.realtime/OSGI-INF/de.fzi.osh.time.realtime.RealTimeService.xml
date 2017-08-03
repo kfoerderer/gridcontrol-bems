@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" immediate="true" name="de.fzi.osh.time.realtime.RealTimeService">
+   <service>
+      <provide interface="de.fzi.osh.time.TimeService"/>
+   </service>
+   <implementation class="de.fzi.osh.time.realtime.RealTimeService"/>
+</scr:component>

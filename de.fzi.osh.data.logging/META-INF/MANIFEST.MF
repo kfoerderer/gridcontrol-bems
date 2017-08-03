@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DataLogging
+Bundle-SymbolicName: de.fzi.osh.data.logging
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: de.fzi.osh.core;bundle-version="1.0.0",
+ de.fzi.osh.wamp;bundle-version="1.0.0",
+ de.fzi.osh.data.storage.timeseries;bundle-version="1.0.0"
+Import-Package: org.osgi.service.component.annotations
+Bundle-ActivationPolicy: lazy
+Service-Component: OSGI-INF/de.fzi.osh.data.logging.DataLogger.xml
+Export-Package: de.fzi.osh.data.logging.types

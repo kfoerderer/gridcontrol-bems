@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" enabled="true" immediate="true" name="de.fzi.osh.data.logging.DataLogger">
+   <reference bind="bindConfigurationService" cardinality="1..1" interface="de.fzi.osh.core.configuration.ConfigurationService" name="ConfigurationService" policy="dynamic" unbind="unbindConfigurationService"/>
+   <reference bind="bindTimeSeriesStorageService" cardinality="1..1" interface="de.fzi.osh.data.storage.timeseries.TimeSeriesStorageService" name="TimeSeriesStorageService" policy="dynamic" unbind="unbindTimeSeriesStorageService"/>
+   <implementation class="de.fzi.osh.data.logging.DataLogger"/>
+</scr:component>

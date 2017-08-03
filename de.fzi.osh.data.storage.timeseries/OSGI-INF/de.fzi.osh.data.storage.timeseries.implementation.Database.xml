@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" enabled="true" immediate="true" name="de.fzi.osh.data.storage.timeseries.implementation.Database">
+   <reference bind="bindConfigurationService" cardinality="1..1" interface="de.fzi.osh.core.configuration.ConfigurationService" name="ConfigurationService" policy="dynamic" unbind="unbindConfigurationService"/>
+   <implementation class="de.fzi.osh.data.storage.timeseries.implementation.Database"/>
+   <service>
+      <provide interface="de.fzi.osh.data.storage.timeseries.TimeSeriesStorageService"/>
+   </service>
+</scr:component>

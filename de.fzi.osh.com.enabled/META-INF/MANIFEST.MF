@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Enabled
+Bundle-SymbolicName: de.fzi.osh.com.enabled
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: org.osgi.service.component.annotations
+Require-Bundle: de.fzi.osh.core
+Bundle-ActivationPolicy: lazy
+Service-Component: OSGI-INF/de.fzi.osh.com.enabled.implementation.ModbusEnabledListener.xml
+Bundle-ClassPath: libraries/j2mod-1.06.jar,
+ .
+Export-Package: de.fzi.osh.com.enabled

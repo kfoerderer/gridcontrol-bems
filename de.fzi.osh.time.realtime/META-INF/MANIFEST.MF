@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Realtime
+Bundle-SymbolicName: de.fzi.osh.time.realtime
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: de.fzi.osh.time,
+ org.osgi.service.component.annotations;version="1.2.0"
+Service-Component: OSGI-INF/de.fzi.osh.time.realtime.RealTimeService.xml
+Bundle-ActivationPolicy: lazy

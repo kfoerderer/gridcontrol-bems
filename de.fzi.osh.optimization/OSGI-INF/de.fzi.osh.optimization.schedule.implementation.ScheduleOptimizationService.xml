@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" enabled="true" name="de.fzi.osh.optimization.schedule.implementation.ScheduleOptimizationService">
+   <service>
+      <provide interface="de.fzi.osh.optimization.OptimizationService"/>
+   </service>
+   <reference bind="bindTimeService" cardinality="1..1" interface="de.fzi.osh.time.TimeService" name="TimeService" policy="dynamic" unbind="unbindTimeService"/>
+   <implementation class="de.fzi.osh.optimization.schedule.implementation.ScheduleOptimizationService"/>
+</scr:component>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="lib" path="libraries/netty-all-4.1.6.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="libraries/msgpack-core-0.8.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="libraries/jackson-annotations-2.8.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="libraries/jackson-dataformat-msgpack-0.8.11.jar" sourcepath="C:/Users/foerdere/.m2/repository/org/msgpack/jackson-dataformat-msgpack/0.8.11/jackson-dataformat-msgpack-0.8.11-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="libraries/jackson-databind-2.8.4.jar" sourcepath="C:/Users/foerdere/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.8.4/jackson-databind-2.8.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="libraries/jackson-core-2.8.4.jar" sourcepath="C:/Users/foerdere/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.8.4/jackson-core-2.8.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="libraries/jawampa.jar"/>
+	<classpathentry exported="true" kind="lib" path="libraries/rxjava-1.2.4.jar" sourcepath="C:/Users/foerdere/.m2/repository/io/reactivex/rxjava/1.2.4/rxjava-1.2.4-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jawampa"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

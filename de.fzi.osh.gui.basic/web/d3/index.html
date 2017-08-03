@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <title>Energiemanagement</title>
+</head>
+
+<body>
+
+	<div id="overlay_loading">
+		<span class="loader"><span class="loader-inner"></span></span>
+		<div class="overlay_loading_text text-large">Ladevorgang</div>
+	</div>
+
+	<div id="menu">
+		<div class="menu_item menu_item_active" id="menu_item_simple"><img id="menu_image_chart" src="images/smile.png"></div>
+		<div class="menu_item" id="menu_item_chart"><img id="menu_image_chart" src="images/chart.png"></div>
+	</div>
+
+    <div id="container">
+    	<div id="message">
+    		<img id="flexibility_status_image" src="">
+    		<div id="flexibility_status" class="text-large"></div>
+    		<img id="flexibility_status_emote" src="">
+    	</div>
+        <div id="selection">
+            <div class="selection_panel selection_panel_consumption selection_panel_consumption active">
+                <h1 class="selection_panel_header"><img src="images/house-white.png" class="image_panel_icon"/><div>Stromverbrauch</div></h1>
+                <div class="selection_panel_content">
+                    <div class="selection_panel_spacer"></div>
+                    <div class="text-extralarge output_consumption"></div>
+                </div>
+            </div>
+            
+            <div class="selection_panel selection_panel_production active">
+                <h1 class="selection_panel_header"><img src="images/solar-white.png" class="image_panel_icon"/><div>Photovoltaik</div></h1>
+                <div class="selection_panel_content selection_panel_production_content">
+                </div>
+            </div>
+
+            <div class="selection_panel selection_panel_battery active">
+                <h1 class="selection_panel_header"><img src="images/battery-white.png" class="image_panel_icon"/><div>Speicher</div></h1>
+                <div class="selection_panel_content">
+                    <div class="text-medium">Ladung</div>
+                    <div class="text-medium output_battery_soc"></div>
+                    <div class="selection_panel_spacer"></div>
+                    <div class="text-medium output_battery_power"></div>
+                </div>
+            </div>
+
+            <div class="selection_panel selection_panel_net active">
+                <h1 class="selection_panel_header"><img src="images/net-white.png" class="image_panel_icon"/><div>Netz</div></h1>
+                <div class="selection_panel_content">
+                    <div class="text-medium output_net_description"></div>
+                    <div class="text-extralarge output_net"></div>
+                </div>
+            </div>
+        </div>
+        <svg id="visualization_live" class="chart"></svg>
+        <svg id="visualization_historical" class="chart"></svg>
+        <div id="visualization_options">
+            <button id="visualization_button_past" class="text-medium">24 Stunden</button>
+            <button id="visualization_button_live" class="text-medium" disabled>Aktuell</button>
+        </div>
+        <div id="attribution">Emotes zur Verf&uuml;gung gestellt von https://www.emojione.com</div>
+        <div id="logo"></div>
+    </div>
+
+</body>
+
+<script src="libs/jquery.min.js"></script>
+<script src="libs/autobahn.js"></script>
+<script src="libs/d3.js"></script>
+<script src="libs/d3-ease.v1.min.js"></script>
+<script src="gui.js"></script>
+
+</html>
