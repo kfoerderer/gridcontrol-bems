@@ -9,5 +9,5 @@ In this context, the BEMS collects local flexibility using a generic interface, 
 During a red traffic light phase the BEMS interrupts its normal operation and controls the local devices according to the signals provided by the distribution system operator.
 
 
-Note:
-Right now there are 3 components missing since they contain intelectual property that we need approval to publish.
+__Please Note:
+Right now there are 3 components missing since they contain intelectual property that we need approval to publish.__
