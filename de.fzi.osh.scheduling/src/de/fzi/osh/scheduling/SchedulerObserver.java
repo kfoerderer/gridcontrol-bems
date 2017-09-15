@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import de.fzi.osh.com.fms.PublicSchedule;
 import de.fzi.osh.core.configuration.BaseConfiguration;
+import de.fzi.osh.core.configuration.BaseConfiguration.MeterConfiguration;
 import de.fzi.osh.core.oc.Controller;
 import de.fzi.osh.core.oc.DataObject;
 import de.fzi.osh.core.oc.Observer;
@@ -154,7 +155,12 @@ public class SchedulerObserver extends Observer<Scheduler, SchedulerConfiguratio
 								(entry.getValue().totalActiveEnergyN - previousMeasurement.totalActiveEnergyN) / 
 								(double)(entry.getValue().time - previousMeasurement.time) * 3600 / 100.0; // fix unit
 					}
-				}			
+				}
+				
+				// consider meter configuration
+				if(component.getBaseConfiguration().meterConfiguration == MeterConfiguration.ConsumptionIncludingProduction) {
+					adaptationData.consumption -= adaptationData.production;
+				}
 				
 				// if there is a batteryData meter, use its data
 				adaptationData.battery = 0;

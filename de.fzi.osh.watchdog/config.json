@@ -1,0 +1,18 @@
+{
+	"wamp" : {
+		"url":"ws://localhost:8080/ws",
+		"realm":"fzi.osh",
+		"topicPrefix":"osh",
+		"maxFramePayloadLength":1048576
+	},
+	
+	"databaseUrl" : "http://localhost:8086",
+	"databaseUser" : "osh",
+	"databasePassword" : "osh",
+	"databaseName" : "osh",
+	
+	"schedulerPersistenceFile" : "../de.fzi.osh.core/persistence_scheduler.json",
+	
+	"meters" : ['112e4c8f-497e-4659-9bd7-8c64e718e72f','ac793044-3963-4cd3-b722-29137137ec35','42885990-c3a1-48fa-814a-6eeec6335380'],
+	"batteries" : ['5ce24edf-685a-48ba-a1cb-5b026b2dd8b7']
+}

@@ -1,0 +1,5 @@
+{
+	"uuid":"42885990-c3a1-48fa-814a-6eeec6335380",
+	"wamp":{"url":"ws://localhost:8080/ws","realm":"fzi.osh","topicPrefix":"osh"},
+	"batteryUUID":"5ce24edf-685a-48ba-a1cb-5b026b2dd8b7"
+}

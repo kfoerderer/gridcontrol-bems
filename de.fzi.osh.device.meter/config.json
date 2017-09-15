@@ -1,0 +1,8 @@
+{
+	"uuid":"112e4c8f-497e-4659-9bd7-8c64e718e72f",
+	"wamp":{"url":"ws://localhost:8080/ws","realm":"fzi.osh","topicPrefix":"osh"},
+	"debug" : "true",
+	"samplingInterval" : 1000,	
+	"gcuAddress" : "127.0.0.1",
+	"gcuPort" : 10502
+}

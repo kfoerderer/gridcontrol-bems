@@ -14,7 +14,7 @@ public class ControlCommunicationConfiguration {
 	/**
 	 * Connection port.
 	 */
-	public short port = 0;
+	public short port = 3333;
 	/**
 	 * User name.
 	 */

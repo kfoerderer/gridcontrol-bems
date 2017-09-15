@@ -1,0 +1,16 @@
+{
+	"uuid":"5ce24edf-685a-48ba-a1cb-5b026b2dd8b7",
+	"wamp":{"url":"ws://localhost:8080/ws","realm":"fzi.osh","topicPrefix":"osh"},
+	
+	"batteryAddress" : "localhost",
+	
+	"nominalCapacity" : 8300,
+	
+	"minStateOfCharge" : 20,
+	
+	"communicationInterval" : 1000,
+	
+	"batteryPort" : 502,
+	
+	"threePhasePowerControl" : true
+}

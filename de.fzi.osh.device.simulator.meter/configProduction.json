@@ -1,0 +1,7 @@
+{
+	"uuid":"ac793044-3963-4cd3-b722-29137137ec35",
+	"wamp":{"url":"ws://localhost:8080/ws","realm":"fzi.osh","topicPrefix":"osh"},
+	"loadProfilesFile" : "../input/loadprofiles_pv.csv",
+	"minimumValue" : -100000,
+	"maximumValue" : 0
+}

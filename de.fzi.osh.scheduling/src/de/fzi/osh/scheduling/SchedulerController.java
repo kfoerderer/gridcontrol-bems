@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import de.fzi.osh.com.fms.FmsCommunicationService.PublicationType;
 import de.fzi.osh.com.fms.PublicSchedule;
 import de.fzi.osh.core.configuration.BaseConfiguration;
+import de.fzi.osh.core.configuration.BaseConfiguration.MeterConfiguration;
 import de.fzi.osh.core.oc.Controller;
 import de.fzi.osh.core.oc.DataObject;
 import de.fzi.osh.core.timeseries.IntegerTimeSlotTransformer;
@@ -451,6 +452,18 @@ public class SchedulerController extends Controller<Scheduler, SchedulerConfigur
 		problem.electricityDemand = getConsumptionForecast(problem.currentSlotBegin, problem.to);
 		problem.electricityProduction = getProductionForecast(problem.currentSlotBegin, problem.to);
 		
+		// consider meter configuration
+		if(component.getBaseConfiguration().meterConfiguration == MeterConfiguration.ConsumptionIncludingProduction) {
+			// demand forecast includes a production forecast -> remove production
+			for(int i = 0; i < problem.electricityDemand.length; i++) {
+				problem.electricityDemand[i] -= problem.electricityProduction[i];
+				// both forecasts are independent, hence demand could be negative
+				if(problem.electricityDemand[i] < 0) {
+					problem.electricityDemand[i] = 0;
+				}
+			}
+		}
+		
 		// get all available flexibilities and tasks
 		problem.schedules = component.getCommunicationInterface().retrieveSchedules(problem.from, problem.to);
 		
@@ -514,6 +527,18 @@ public class SchedulerController extends Controller<Scheduler, SchedulerConfigur
 			// get forecasts, use first suitable service
 			problem.electricityDemand = getConsumptionForecast(problem.from, problem.to);
 			problem.electricityProduction = getProductionForecast(problem.from, problem.to);
+			
+			// consider meter configuration
+			if(component.getBaseConfiguration().meterConfiguration == MeterConfiguration.ConsumptionIncludingProduction) {
+				// demand forecast includes a production forecast -> remove production
+				for(int i = 0; i < problem.electricityDemand.length; i++) {
+					problem.electricityDemand[i] -= problem.electricityProduction[i];
+					// both forecasts are independent, hence demand could be negative
+					if(problem.electricityDemand[i] < 0) {
+						problem.electricityDemand[i] = 0;
+					}
+				}
+			}
 			
 			// get all available flexibilities and tasks
 			problem.schedules = component.getCommunicationInterface().retrieveSchedules(problem.from, problem.to);

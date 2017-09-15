@@ -1,0 +1,5 @@
+{
+	"uuid":"5ce24edf-685a-48ba-a1cb-5b026b2dd8b7",
+	"wamp":{"uri":"uri","realm":"realm","topicPrefix":"osh"},
+	"topicPrefix":"osh"
+}

@@ -261,7 +261,7 @@ public class Application implements Runnable{
 	/**
 	 * Checks if BEMS is running.
 	 * 
-	 * (no tests for netfiles related stuff to save bandwidth)
+	 * (no tests for upload/download related stuff to save bandwidth)
 	 * 
 	 * @return
 	 */

@@ -248,6 +248,7 @@ public class BasicGuiServer {
             	batteryUUIDs += "]";
             	config += 
         			"var batteries = " + batteryUUIDs + ";" + System.lineSeparator() +
+        			"var meterConfiguration = " + baseConfiguration.meterConfiguration.getValue() + ";" + System.lineSeparator() +
         			"var flexibilityMessageBuffer = '" + BasicGuiServer.guiConfiguration.flexibilityMessageBuffer + "';" + System.lineSeparator();
             	
             	// read script

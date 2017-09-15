@@ -21,7 +21,7 @@ public class BasicGuiConfiguration {
 	/**
 	 * Directory containing gui.
 	 */
-	public String webPath = "../de.fzi.osh.gui.basic/web/d3";
+	public String webPath = "../de.fzi.osh.gui.basic/web/standard";
 	
 	/**
 	 * Boundaries for battery power to electricity network applied to determine if the flexibility is used or not.

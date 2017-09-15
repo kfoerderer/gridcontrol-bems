@@ -291,6 +291,11 @@ public class Scheduler extends OshComponent<Scheduler, SchedulerConfiguration> {
 		observer.initialize();
 		controller.initialize();
 		
+		if(configuration.dnoControllableDevices.length <= 0) {
+			// in grid-control this should not happen, hence severe instead of info
+			log.severe("No DNO controllable devices available.");
+		}
+		
 		try {
 			timeService.sleep(configuration.startupDelay);
 		} catch (InterruptedException e1) {

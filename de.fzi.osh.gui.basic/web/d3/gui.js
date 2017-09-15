@@ -18,6 +18,9 @@ var batteryMeters
 var batteries
 	Array of UUIDs (string) of batteries
 
+var meterConfiguration
+	Identifier for meter configuration (0: Standard; 1: Consumption includes PV)
+
 var flexibilityMessageBuffer
 	Only display a message if deviating from schedule by a certain margin
  */
@@ -98,6 +101,44 @@ function drawHistoricalChart() {
 	queue.await(function(error) {
 		if (error) throw error;
 
+		// compute data according to meter configuration
+		if(meterConfiguration == 1) {
+			// production has to be substracted from consumption
+			// get consumption
+			// find entry (android compatible)
+			var consumption = undefined;
+			timeSeries.some(function(series){if(series.id == consumptionMeter){consumption = series; return true;} else return false;});
+			
+			// get production
+			meters.forEach(function(uuid) {
+				if($.inArray(uuid, productionMeters) >= 0) {
+					// find series
+					var production = undefined;
+					timeSeries.some(function(series){if(series.id == uuid){production = series; return true;} else return false;});
+					if(production.values.length > 0) {
+						for(i=j=0; i < consumption.values.length;) {
+							if(consumption.values[i].date.getTime() == production.values[j].date.getTime()) {
+								// no data missing
+								consumption.values[i].totalActivePower -= production.values[j].totalActivePower;
+								i++;
+								j++;
+							} else if(consumption.values[i].date > production.values[j].date) {
+								// consumption data missing -> omit
+								j++;
+							} else if(consumption.values[i].date < production.values[j].date) {
+								// production data missing -> use last known value
+								consumption.values[i].totalActivePower -= production.values[Math.max(0,j-1)].totalActivePower;
+								i++;
+							}
+							if(j >= production.values.length) {
+								j--;
+							}
+						}	
+					}					
+				}
+			});
+		}
+		
 		// compute total
 		meters.forEach(function(uuid) {
 			// "find" (android compatible)
@@ -315,8 +356,13 @@ connection.onopen = function (session) {
             // consumption
             if(args[0].time > latest_consumption.time) {
                 latest_consumption.time = args[0].time;
-                latest_consumption.value = args[0].totalActivePower;                
-                $('.output_consumption').html(Math.round(args[0].totalActivePower / 10 / 1000 * 100) / 100 + ' kW');
+                latest_consumption.value = args[0].totalActivePower;    
+                
+        		// compute data according to meter configuration, but fix only once
+        		if(meterConfiguration == 1) {
+        			latest_consumption.value -= latest_total_production.value;
+        		}
+                $('.output_consumption').html(Math.round(latest_consumption.value / 10 / 1000 * 100) / 100 + ' kW');
             }
         }
 
@@ -389,10 +435,16 @@ connection.onopen = function (session) {
     	var obj = undefined;
     	timeSeries.some(function(series){if(series.id == args[0].uuid) {obj = series; return true;} else return false;});
     	if(obj !== undefined) {
-    		obj.values.push({date: new Date(args[0].time*1000), totalActivePower: args[0].totalActivePower / 10});
+    		// compute data according to meter configuration, but fix only once
+    		if(meterConfiguration == 1 && args[0].uuid == consumptionMeter) {
+    			obj.values.push({date: new Date(args[0].time*1000), totalActivePower: latest_consumption.value / 10});
+    		} else {
+    			obj.values.push({date: new Date(args[0].time*1000), totalActivePower: args[0].totalActivePower / 10});
+    		}
+    		
         	if(obj.values.length > liveFrame) {
         		obj.values.shift();    	
-        	}
+        	}   		
     	}    	
 
     	if(batteryMeters.length > 0) {	    	

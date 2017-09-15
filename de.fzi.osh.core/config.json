@@ -1,0 +1,44 @@
+{
+	"de.fzi.osh.core.configuration.BaseConfiguration" : {
+	},
+	
+	"de.fzi.osh.wamp.configuration.WampConfiguration" : {
+	},
+
+	"de.fzi.osh.core.logging.LoggingConfiguration" : {
+	},
+
+	"de.fzi.osh.data.storage.configuration.DatabaseConfiguration" : {
+	},
+	
+	"de.fzi.osh.data.storage.timeseries.configuration.DatabaseConfiguration" : {
+	},
+	
+	"de.fzi.osh.data.upload.configuration.UploaderConfiguration" : {
+	},
+
+	"de.fzi.osh.scheduling.configuration.SchedulerConfiguration" : {
+	},
+		
+	"de.fzi.osh.data.logging.configuration.DataLoggerConfiguration" : {
+	},
+		
+	"de.fzi.osh.forecasting.configuration.ElectricityDemandForecastingConfiguration" : {
+	},
+		
+	"de.fzi.osh.forecasting.configuration.SolarPowerForecastingConfiguration" : {
+	},
+		
+	"de.fzi.osh.com.fms.configuration.FmsCommunicationConfiguration" : {
+	},
+		
+	"de.fzi.osh.com.control.configuration.ControlCommunicationConfiguration" : {
+	},
+		
+	"de.fzi.osh.com.enabled.configuration.ModbusEnabledListenerConfiguration" : {
+	},
+	
+	"de.fzi.osh.gui.basic.configuration.BasicGuiConfiguration" : {
+		"webPath" : "../de.fzi.osh.gui.basic/web/d3"
+	}
+}

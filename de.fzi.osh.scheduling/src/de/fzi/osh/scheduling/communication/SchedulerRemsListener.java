@@ -25,9 +25,11 @@ public class SchedulerRemsListener implements DataListener{
 	public void setCoil(short address, boolean value) {
 		Map<Short, Boolean> data = new HashMap<Short, Boolean>();
 		data.put(address, value);
-		
-		for(UUID uuid : scheduler.getConfiguration().dnoControllableDevices) {
-			scheduler.getCommunicationInterface().forwardRemsControl(uuid, data, null);
+				
+		if(scheduler.getConfiguration().dnoControllableDevices != null) {
+			for(UUID uuid : scheduler.getConfiguration().dnoControllableDevices) {
+				scheduler.getCommunicationInterface().forwardRemsControl(uuid, data, null);
+			}
 		}
 	}
 
@@ -36,8 +38,10 @@ public class SchedulerRemsListener implements DataListener{
 		Map<Short, Short> data = new HashMap<Short, Short>();
 		data.put(address, value);
 		
-		for(UUID uuid : scheduler.getConfiguration().dnoControllableDevices) {
-			scheduler.getCommunicationInterface().forwardRemsControl(uuid, null, data);
-		}		
+		if(scheduler.getConfiguration().dnoControllableDevices != null) {
+			for(UUID uuid : scheduler.getConfiguration().dnoControllableDevices) {
+				scheduler.getCommunicationInterface().forwardRemsControl(uuid, null, data);
+			}
+		}
 	}
 }
