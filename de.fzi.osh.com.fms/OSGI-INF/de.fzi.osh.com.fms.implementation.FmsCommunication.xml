@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" immediate="true" name="de.fzi.osh.com.fms.implementation.FmsCommunication">
+   <service>
+      <provide interface="de.fzi.osh.com.fms.FmsCommunicationService"/>
+   </service>
+   <reference bind="bindConfigurationService" cardinality="1..1" interface="de.fzi.osh.core.configuration.ConfigurationService" name="ConfigurationService" policy="dynamic" unbind="unbindConfigurationService"/>
+   <reference bind="bindTimeService" cardinality="1..1" interface="de.fzi.osh.time.TimeService" name="TimeService" policy="dynamic" unbind="unbindTimeService"/>
+   <implementation class="de.fzi.osh.com.fms.implementation.FmsCommunication"/>
+</scr:component>

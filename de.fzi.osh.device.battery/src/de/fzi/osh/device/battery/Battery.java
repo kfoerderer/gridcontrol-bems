@@ -132,11 +132,11 @@ public class Battery extends Device<Battery, BatteryConfiguration>  {
 				
 				// battery state management
 				if(currentState.systemState != SystemState.Auto && currentState.systemState != SystemState.LineCommutated) {
-					log.finest("System state is '" + currentState.systemState + "'. Requesting '" + SystemState.Auto.toString() + "'." );
-					// State is not auto and auto isn't requested either => request auto state
+					log.finest("System state is '" + currentState.systemState + "'. Requesting '" + SystemState.LineCommutated.toString() + "'." );
+					// State is not auto or line commutated => request auto state
 					ModbusTCPTransaction transaction = new ModbusTCPTransaction(modbusConnection);
 					// create request
-					SimpleRegister register = new SimpleRegister(SystemState.Auto.getValue());
+					SimpleRegister register = new SimpleRegister(SystemState.LineCommutated.getValue());
 					WriteSingleRegisterRequest writeSingleRegisterRequest = new WriteSingleRegisterRequest(243, register); // register 244
 					// do request
 					transaction.setRequest(writeSingleRegisterRequest);
