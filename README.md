@@ -12,7 +12,4 @@ More Information will follow!
 
 
 __Please Note:
-Right now there is a central component missing since it contains intelectual property that we need approval to publish.__
-
-__Please Note#2:
 Were are still updating and fixing bugs at this stage of the project__

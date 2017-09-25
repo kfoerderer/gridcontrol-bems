@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Fms
+Bundle-SymbolicName: de.fzi.osh.com.fms
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: com.jcraft.jsch,
+ de.fzi.osh.time,
+ org.osgi.service.component.annotations
+Require-Bundle: de.fzi.osh.core,
+ de.fzi.osh.types
+Service-Component: OSGI-INF/de.fzi.osh.com.fms.implementation.FmsCommunication.xml
+Export-Package: de.fzi.osh.com.fms,
+ de.fzi.osh.com.fms.datalink
+Bundle-ClassPath: .
+Bundle-ActivationPolicy: lazy
