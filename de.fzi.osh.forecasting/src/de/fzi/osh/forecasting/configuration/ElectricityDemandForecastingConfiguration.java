@@ -14,17 +14,48 @@ import java.util.UUID;
 public class ElectricityDemandForecastingConfiguration {
 	
 	/**
-	 * Whether the forecast is derived from the slp or not.
+	 * Set of forecasting methods offered.
 	 * 
-	 * <ul>
-	 * <li><b>true</b>: SLP is multiplied with multiplier.</li> 
-	 * <li><b>false</b>: Use average of last numberOfDays similar days (working days vs Saturday vs Sunday) and multiply with meterScalar.</li>  
-	 * </ul>
+	 * @author Foerderer K.
+	 *
 	 */
-	public boolean fromSlp = false;
+	public static enum ForecastingMethod {
+		/**
+		 * Empty forecast will be generated
+		 */
+		None(0), 
+		/**
+		 * Use a standard load profile.
+		 */
+		StandardLoadProfile(1),
+		/**
+		 * Derive forecast from historic data.
+		 */
+		HistoricData(2);
+		
+		private int id;
+		private ForecastingMethod(int id) {
+			this.id = id;
+		}
+		public int getValue() {
+			return id;
+		}
+		public static ForecastingMethod fromValue(int id) {
+			for(ForecastingMethod state: ForecastingMethod.values()) {
+				if(state.getValue() == id) {
+					return state;
+				}
+			}
+			return ForecastingMethod.None;
+		}
+	};
 	
-	// Forecast from standard load profile
+	/**
+	 * Forecasting method to be used.
+	 */
+	public ForecastingMethod forecastingMethod = ForecastingMethod.HistoricData;
 	
+	// Forecast from standard load profile	
 	/**
 	 * An appropriate standard load profile for the building 
 	 */
@@ -42,7 +73,6 @@ public class ElectricityDemandForecastingConfiguration {
 	
 	
 	// Forecast from historic data	
-	
 	/**
 	 * UUID of meter used as source for demand series.
 	 */

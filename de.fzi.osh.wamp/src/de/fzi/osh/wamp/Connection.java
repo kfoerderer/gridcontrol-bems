@@ -214,6 +214,8 @@ public class Connection implements Runnable{
 			} catch (Exception e) {
 				log.severe("Addition to event queue failed");
 				log.severe(e.toString());
+				// additionally print stack trace
+				e.printStackTrace();
 			}
 		}, error -> {
 			log.severe("Subscription to '" + uri + "' failed.");
@@ -253,6 +255,8 @@ public class Connection implements Runnable{
 					} catch (Exception e) {
 						log.severe("onSuccess failed");
 						log.severe(e.toString());
+						// additionally print stack trace
+						e.printStackTrace();
 					}
 				},
 				error -> {
@@ -265,6 +269,8 @@ public class Connection implements Runnable{
 					} catch (Exception e) {
 						log.severe("onError failed");
 						log.severe(e.toString());
+						// additionally print stack trace
+						e.printStackTrace();
 					}
 				},
 				() -> {
@@ -275,6 +281,8 @@ public class Connection implements Runnable{
 					} catch (Exception e) {
 						log.severe("onCompleted failed");
 						log.severe(e.toString());
+						// additionally print stack trace
+						e.printStackTrace();
 					}
 				});
 	}
@@ -349,6 +357,8 @@ public class Connection implements Runnable{
 					} catch (Exception e) {
 						log.severe("onResponse failed");
 						log.severe(e.toString());
+						// additionally print stack trace
+						e.printStackTrace();
 					}
 				},
 				error -> {
@@ -362,6 +372,8 @@ public class Connection implements Runnable{
 					} catch (Exception e) {
 						log.severe("onError failed");
 						log.severe(e.toString());
+						// additionally print stack trace
+						e.printStackTrace();
 					}
 				},
 				() -> {
@@ -372,6 +384,8 @@ public class Connection implements Runnable{
 					} catch (Exception e) {
 						log.severe("onCompleted failed");
 						log.severe(e.toString());
+						// additionally print stack trace
+						e.printStackTrace();
 					}
 				});
 	}

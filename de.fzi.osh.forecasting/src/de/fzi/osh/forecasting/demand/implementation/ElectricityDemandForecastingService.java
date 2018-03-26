@@ -24,6 +24,7 @@ import de.fzi.osh.data.storage.timeseries.TimeSeriesStorageService;
 import de.fzi.osh.forecasting.Forecast;
 import de.fzi.osh.forecasting.ForecastingService;
 import de.fzi.osh.forecasting.configuration.ElectricityDemandForecastingConfiguration;
+import de.fzi.osh.forecasting.configuration.ElectricityDemandForecastingConfiguration.ForecastingMethod;
 import de.fzi.osh.forecasting.demand.ElectricityDemandForecast;
 import de.fzi.osh.time.TimeService;
 
@@ -72,112 +73,136 @@ public class ElectricityDemandForecastingService implements ForecastingService {
 			demand.forecastEnd = new Timestamp(to.toInstant().toEpochMilli());
 			demand.timeSlotLength = configuration.intervalLength;
 			
-			boolean getSlpForecast = configuration.fromSlp;
-			if(Duration.between(from, to).toDays() >= 1 && (to.getHour() != 0 || from.getHour() != 0) && getSlpForecast == false) {
-				log.warning("Can not forecast across multiple days. Fallback to SLP.");
-				getSlpForecast = true;
-			}
-			
-			try {
-				if(false == getSlpForecast) {
-					// get calendar to determine day
-					DayOfWeek dayOfWeek = from.getDayOfWeek();
-					
-					NavigableMap<Integer, Integer> powers = new TreeMap<Integer,Integer>();
-					// prepare map
-					long startSecond = from.truncatedTo(ChronoUnit.DAYS).toEpochSecond();
-			    	long currentSecond = from.toEpochSecond();    
-			    	while(currentSecond < to.toEpochSecond()) {
-			    		int secondOfDay = (int)(currentSecond - startSecond);
-			    		powers.put(secondOfDay, 0);          		
-			    		currentSecond += configuration.intervalLength;
-			    	}
-					
-					// initialize iterator with begin of target day
-					ZonedDateTime dayInterator = from.truncatedTo(ChronoUnit.DAYS); 
-					int nDays = 0;
-					for(int i = 0; i < configuration.numberOfDays; i++) {
-						// begin and end times of a day for time series retrieval
-						ZonedDateTime end;
-						ZonedDateTime begin;
-						
-						if(dayOfWeek == DayOfWeek.SATURDAY) {
-							// move begin back to previous Saturday
-							begin = dayInterator.minusDays(7);
-							end = begin.plusDays(1);							
-						} else if(dayOfWeek == DayOfWeek.SUNDAY) {
-							// move begin back to previous Sunday
-							begin = dayInterator.minusDays(7);
-							end = begin.plusDays(1);									
-						} else {
-							if(dayInterator.getDayOfWeek() == DayOfWeek.MONDAY) {
-								// move begin back to previous Friday
-								begin = dayInterator.minusDays(3);
-								end = begin.plusDays(1);										
-							} else {
-								// move begin back to previous week day
-								begin = dayInterator.minusDays(1);
-								end = dayInterator;										
-							}
-						}
-						dayInterator = begin;				
-						
-						NavigableMap<Integer, Integer> series = getSeries(begin, end);
-						
-						if(powers.size() == 0) {
-				    		log.warning("Empty result set for historical meter data. Ignoring day.");
-				    		continue;
-				    	}
-				    	
-						// aggregate
-						final int numberOfDays = nDays;
-						powers.replaceAll((k,v) -> {
-							Integer key = series.floorKey(k);
-							if(key == null) {
-								// if data is missing use average of previous days
-								if(numberOfDays == 0) {
-									return 0;
-								} else {
-									return v + v / numberOfDays;
-								}
-							} else {
-								return v + series.get(key);
-							}
-						}); 
-						
-						// increment number of days
-						nDays++;
-					}
-					
-					// check forecast
-			    	if(powers.entrySet().stream().filter(e -> e.getValue() > 0).count() == 0) {
-			    		// only zeroes in map
-			    		log.warning("Forecast only consists of 0s. Using SLP now.");
-			    		getSlpForecast = true;
-			    	} else {
-				    	// compile result
-				    	powers.forEach((k,v) -> demand.addWattage(v));
-			    	}			    	
-				}
-			} catch(Exception e) {
-				log.severe(e.toString());
-				getSlpForecast = true;
-			}
-			
-			// if setting says so or forecast on historic data fails, do slp based forecast
-			if(getSlpForecast) {
-					
+			// fill with zeroes if no forecast is wished
+			if(configuration.forecastingMethod == ForecastingMethod.None) {
+				
 				// copy $from
 				ZonedDateTime iterator = from.plusMinutes(0);
 				
 				do {
 					// get value
-					demand.addWattage((int)Math.round(configuration.multiplier * 
-							profile.getWattageForTimestamp(new Timestamp(iterator.toInstant().toEpochMilli()))));
+					demand.addWattage(0);
 					
 					// move to next interval
 					iterator = iterator.plusSeconds(configuration.intervalLength);
 				} while(iterator.isBefore(to));
+			
+			} 
+			// standard forecast
+			else {
+			
+				// forecast via SLP?
+				boolean getSlpForecast = configuration.forecastingMethod == ForecastingMethod.StandardLoadProfile;
+				
+				if(Duration.between(from, to).toDays() >= 1 && (to.getHour() != 0 || from.getHour() != 0) && getSlpForecast == false) {
+					log.warning("Can not forecast across multiple days. Fallback to SLP.");
+					getSlpForecast = true;
+				}
+				
+				// try historic forecast if wished
+				try {
+					if(configuration.forecastingMethod == ForecastingMethod.HistoricData) {
+						// get calendar to determine day
+						DayOfWeek dayOfWeek = from.getDayOfWeek();
+						
+						NavigableMap<Integer, Integer> powers = new TreeMap<Integer,Integer>();
+						// prepare map
+						long startSecond = from.truncatedTo(ChronoUnit.DAYS).toEpochSecond();
+				    	long currentSecond = from.toEpochSecond();    
+				    	while(currentSecond < to.toEpochSecond()) {
+				    		int secondOfDay = (int)(currentSecond - startSecond);
+				    		powers.put(secondOfDay, 0);          		
+				    		currentSecond += configuration.intervalLength;
+				    	}
+						
+						// initialize iterator with begin of target day
+						ZonedDateTime dayInterator = from.truncatedTo(ChronoUnit.DAYS); 
+						int nDays = 0;
+						for(int i = 0; i < configuration.numberOfDays; i++) {
+							// begin and end times of a day for time series retrieval
+							ZonedDateTime end;
+							ZonedDateTime begin;
+							
+							if(dayOfWeek == DayOfWeek.SATURDAY) {
+								// move begin back to previous Saturday
+								begin = dayInterator.minusDays(7);
+								end = begin.plusDays(1);							
+							} else if(dayOfWeek == DayOfWeek.SUNDAY) {
+								// move begin back to previous Sunday
+								begin = dayInterator.minusDays(7);
+								end = begin.plusDays(1);									
+							} else {
+								if(dayInterator.getDayOfWeek() == DayOfWeek.MONDAY) {
+									// move begin back to previous Friday
+									begin = dayInterator.minusDays(3);
+									end = begin.plusDays(1);										
+								} else {
+									// move begin back to previous week day
+									begin = dayInterator.minusDays(1);
+									end = dayInterator;										
+								}
+							}
+							dayInterator = begin;				
+							
+							NavigableMap<Integer, Integer> series = getSeries(begin, end);
+							
+							if(powers.size() == 0) {
+					    		log.warning("Empty result set for historical meter data. Ignoring day.");
+					    		continue;
+					    	}
+					    	
+							// aggregate
+							final int numberOfDays = nDays;
+							powers.replaceAll((k,v) -> {
+								Integer key = series.floorKey(k);
+								if(key == null) {
+									// if data is missing use average of previous days
+									if(numberOfDays == 0) {
+										return 0;
+									} else {
+										return v + v / numberOfDays;
+									}
+								} else {
+									return v + series.get(key);
+								}
+							}); 
+							
+							// increment number of days
+							nDays++;
+						}
+						
+						// check forecast
+				    	if(powers.entrySet().stream().filter(e -> e.getValue() > 0).count() == 0) {
+				    		// only zeroes in map
+				    		log.warning("Forecast only consists of 0s. Using SLP now.");
+				    		getSlpForecast = true;
+				    	} else {
+					    	// compile result
+					    	powers.forEach((k,v) -> demand.addWattage(v));
+				    	}			    	
+					}
+				} catch(Exception e) {
+					// reset wattages
+					demand.wattages = "";
+					log.severe(e.toString());
+					getSlpForecast = true;
+				}
+				
+				// if setting says so or forecast on historic data fails, do slp based forecast
+				if(getSlpForecast) {
+						
+					// copy $from
+					ZonedDateTime iterator = from.plusMinutes(0);
+					
+					do {
+						// get value
+						demand.addWattage((int)Math.round(configuration.multiplier * 
+								profile.getWattageForTimestamp(new Timestamp(iterator.toInstant().toEpochMilli()))));
+						
+						// move to next interval
+						iterator = iterator.plusSeconds(configuration.intervalLength);
+					} while(iterator.isBefore(to));
+				}				
 			}
 			
 			return clazz.cast(demand);	

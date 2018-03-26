@@ -161,7 +161,13 @@ public class SchedulerController extends Controller<Scheduler, SchedulerConfigur
 		Map<UUID, Task> currentlyRunning = new HashMap<UUID, Task>();
 		
 		// DEBUG
-		System.out.println(difference + "\t=" + adaptationData.schedule + "\t- ( " + adaptationData.consumption + "\t+" + adaptationData.production + "\t+" + adaptationData.battery + ")");
+		System.out.println("---------------------");
+		System.out.print("Schedule (FMS):" + adaptationData.schedule + ", ");
+		System.out.print("Cons.-Meter: " + adaptationData.consumption + ", ");
+		System.out.print("Prod.-Meter:" + adaptationData.production + ", ");
+		System.out.print("Bat.-Meter:" + adaptationData.battery + System.lineSeparator());
+		System.out.println("Delta = Schedule - (Cons. + Prod. + Bat.) = " + difference);
+		
 		
 		// get all currently running adaptable flexibilities
 		long now = timeService.now();
@@ -209,6 +215,11 @@ public class SchedulerController extends Controller<Scheduler, SchedulerConfigur
 			// target = current + delta
 			Integer current = adaptableTask.power.floorEntry(relativeNow).getValue();
 			int targetPower = (int)((current == null ? 0 : current) + difference / currentlyRunning.size()); // difference > 0 => consume more energy
+			
+			// DEBUG
+			System.out.println("[Task " + adaptableTask.id + "]");
+			System.out.println("New Target = " + (current == null ? 0 : current) + " + " + (int)(difference / currentlyRunning.size()));
+			
 			IntInterval powerConstraint = flexibility.powerCorridor.floorEntry(relativeNow).getValue();
 			targetPower = Math.min(targetPower, powerConstraint.max);
 			targetPower = Math.max(targetPower, powerConstraint.min);
@@ -222,10 +233,6 @@ public class SchedulerController extends Controller<Scheduler, SchedulerConfigur
 				System.out.println(energyConstraint.min + " >= " + targetPower + " * " + configuration.flexibilityAdaptionHorizon);
 				targetPower = 0;
 			}
-			else {
-				// DEBUG
-				System.out.println("Target: " + targetPower);
-			}
 			relevantPowers.put(relativeNow, targetPower);
 			// make sure only values within adaption horizon are changed
 			relevantPowers.put(relativeNow + configuration.flexibilityAdaptionHorizon, powerDataBackup.floorEntry(relativeNow + configuration.flexibilityAdaptionHorizon).getValue());
@@ -235,6 +242,9 @@ public class SchedulerController extends Controller<Scheduler, SchedulerConfigur
 				component.getCommunicationInterface().adaptFlexibility(entry.getKey(), adaptableTask.flexibilityId, relevantPowers,
 						response -> {
 							if(response.result != SchedulingResult.Ok) {
+								// DEBUG
+								System.out.println("Response: Failed");
+								
 								log.info("Schedule adaption not possible for application '" + entry.getKey() + "' (" + response.result + ").");
 								
 								// restore power data
@@ -246,6 +256,9 @@ public class SchedulerController extends Controller<Scheduler, SchedulerConfigur
 								}
 							}
 						}, error -> {
+							// DEBUG
+							System.out.println("Exception");
+							
 							log.info("Schedule adaption not possible for application '" + entry.getKey() + "' (" + error.toString() + ").");
 							
 							// restore power data
@@ -257,6 +270,9 @@ public class SchedulerController extends Controller<Scheduler, SchedulerConfigur
 							}
 						}, null);
 			} else {
+				// DEBUG
+				System.out.println("Invalid");
+				
 				log.info("Schedule adaption not valid for application '" + entry.getKey() + "'.");
 				// restore power data
 				adaptableTask.power = powerDataBackup;

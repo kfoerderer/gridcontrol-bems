@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -166,12 +168,14 @@ public class Battery extends Device<Battery, BatteryConfiguration>  {
 				
 				// write updates if necessary				
 				if(currentState.systemState != SystemState.Off && writeToModbus == true) {
+					
 					// create transaction
 					ModbusTCPTransaction transaction = new ModbusTCPTransaction(modbusConnection);
 					// create request
 					SimpleRegister register = new SimpleRegister(0);
 					
 					if(configuration.threePhasePowerControl == false) {
+						System.out.println("Register[31] = " + realPowerReq / 100);
 						// single phase mode
 						register.setValue((short)(realPowerReq / 100));
 						WriteSingleRegisterRequest writeSingleRegisterRequest = new WriteSingleRegisterRequest(31, register); // register 32
@@ -186,21 +190,25 @@ public class Battery extends Device<Battery, BatteryConfiguration>  {
 						short lowWord = intToShortL(phasePowerRequest);
 
 						// register 36
+						System.out.println("Register[35] = " + highWord);
 						register.setValue(highWord);
 						WriteSingleRegisterRequest writeSingleRegisterRequest = new WriteSingleRegisterRequest(35, register);
 						transaction.setRequest(writeSingleRegisterRequest);
 						transaction.execute();
 						// register 37
+						System.out.println("Register[36] = " + lowWord);
 						register.setValue(lowWord);
 						writeSingleRegisterRequest = new WriteSingleRegisterRequest(36, register);
 						transaction.setRequest(writeSingleRegisterRequest);
 						transaction.execute();
 						// register 38
+						System.out.println("Register[37] = " + highWord);
 						register.setValue(highWord);
 						writeSingleRegisterRequest = new WriteSingleRegisterRequest(37, register);
 						transaction.setRequest(writeSingleRegisterRequest);
 						transaction.execute();
 						// register 39
+						System.out.println("Register[38] = " + lowWord);
 						register.setValue(lowWord);
 						writeSingleRegisterRequest = new WriteSingleRegisterRequest(38, register);
 						transaction.setRequest(writeSingleRegisterRequest);
@@ -211,12 +219,14 @@ public class Battery extends Device<Battery, BatteryConfiguration>  {
 						highWord = intToShortH(phasePowerRequest);
 						lowWord = intToShortL(phasePowerRequest);
 						// register 40
+						System.out.println("Register[39] = " + highWord);
 						register.setValue(highWord);
 						writeSingleRegisterRequest = new WriteSingleRegisterRequest(39, register);
 						transaction.setRequest(writeSingleRegisterRequest);
 						transaction.execute();
 						// register 41
 						register.setValue(lowWord);
+						System.out.println("Register[40] = " + lowWord);
 						writeSingleRegisterRequest = new WriteSingleRegisterRequest(40, register);
 						transaction.setRequest(writeSingleRegisterRequest);
 						transaction.execute();
@@ -245,8 +255,8 @@ public class Battery extends Device<Battery, BatteryConfiguration>  {
 						// write registers
 						for(Map.Entry<Short, Short> entry : remsRequest.registers.entrySet()) {
 							SimpleRegister register = new SimpleRegister(entry.getValue());
-							WriteSingleRegisterRequest writeCoilRequest = new WriteSingleRegisterRequest(entry.getKey(), register);
-							transaction.setRequest(writeCoilRequest);
+							WriteSingleRegisterRequest writeRegisterRequest = new WriteSingleRegisterRequest(entry.getKey(), register);
+							transaction.setRequest(writeRegisterRequest);
 							transaction.execute();
 						}
 					}
@@ -528,6 +538,98 @@ public class Battery extends Device<Battery, BatteryConfiguration>  {
 		if(driverState != DriverState.Standby) {
 			log.warning("Received Rems commands while being enabled. Command will be ignored.");
 		} else {
+			System.out.println(" - REMS request - ");
+			
+			if(configuration.threePhasePowerControl && request.registers != null) {
+				System.out.println("Translating to 3 phase mode.");
+				
+				// create a new map and replace old one
+				Map<Short, Short> translatedRegisters = new HashMap<Short,Short>();
+				
+				// Note: containsKey doesn't work since map uses Short instead of short !!!
+				Iterator<Map.Entry<Short, Short>> iterator = request.registers.entrySet().iterator();
+				while(iterator.hasNext()) {
+					Map.Entry<Short, Short> entry = iterator.next();
+					
+					if(entry.getKey() == 31) {
+						// map from single phase to three phase control
+						int requestedPower = entry.getValue();
+						System.out.println("Register[31] = " + requestedPower + " => Registers[35-40]");
+						requestedPower *= 100;
+						
+						// three phase mode
+						// distribute request evenly on all phases
+						int phasePowerRequest = (int)(requestedPower / 3);
+						short highWord = intToShortH(phasePowerRequest);
+						short lowWord = intToShortL(phasePowerRequest);
+		
+						// register 36
+						translatedRegisters.put((short)35, highWord);
+						// register 37
+						translatedRegisters.put((short)36, lowWord);
+						// register 38
+						translatedRegisters.put((short)37, highWord);
+						// register 39
+						translatedRegisters.put((short)38, lowWord);
+						
+						// recalculate for an exact match
+						phasePowerRequest = (int)(requestedPower - 2 * phasePowerRequest);
+						highWord = intToShortH(phasePowerRequest);
+						lowWord = intToShortL(phasePowerRequest);
+						// register 40
+						translatedRegisters.put((short)39, highWord);
+						// register 41
+						translatedRegisters.put((short)40, lowWord);
+					} else if(entry.getKey() == 32) {
+						// map from single phase to three phase control
+						int requestedPower = entry.getValue();
+						System.out.println("Register[32] = " + requestedPower + " => Registers[41-46]");
+						requestedPower *= 100;
+						
+						// three phase mode
+						// distribute request evenly on all phases
+						int phasePowerRequest = (int)(requestedPower / 3);
+						short highWord = intToShortH(phasePowerRequest);
+						short lowWord = intToShortL(phasePowerRequest);
+		
+						// register 42
+						translatedRegisters.put((short)41, highWord);
+						// register 43
+						translatedRegisters.put((short)42, lowWord);
+						// register 44
+						translatedRegisters.put((short)43, highWord);
+						// register 45
+						translatedRegisters.put((short)44, lowWord);
+						
+						// recalculate for an exact match
+						phasePowerRequest = (int)(requestedPower - 2 * phasePowerRequest);
+						highWord = intToShortH(phasePowerRequest);
+						lowWord = intToShortL(phasePowerRequest);
+						// register 46
+						translatedRegisters.put((short)45, highWord);
+						// register 47
+						translatedRegisters.put((short)46, lowWord);
+					} else {
+						translatedRegisters.put(entry.getKey(), entry.getValue());
+					}
+				}
+				
+				// now replace old map
+				request.registers = translatedRegisters;
+			}
+			
+			// Debug
+			if(request.registers != null && request.registers.size() > 0) {
+				for(Map.Entry<Short, Short> entry : request.registers.entrySet()) {
+					System.out.println("Register[" + entry.getKey() + "] = " + entry.getValue()); 
+				}
+			}
+			if(request.coils != null && request.coils.size() > 0) {
+				for(Map.Entry<Short, Boolean> entry : request.coils.entrySet()) {
+					System.out.println("Coil[" + entry.getKey() + "] = " + entry.getValue());
+				}
+			}
+			
 			this.remsRequest = request;
 		}
 	}

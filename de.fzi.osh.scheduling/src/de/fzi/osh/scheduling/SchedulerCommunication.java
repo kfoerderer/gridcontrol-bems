@@ -192,6 +192,9 @@ public class SchedulerCommunication extends CommunicationInterface<Scheduler, Sc
 		request.id = flexibilityId;
 		request.power = power;
 		
+		// DEBUG
+		System.out.println("Requesting power " + power.firstEntry().getValue() + " from flexibility " + flexibilityId);
+		
 		// do rpc
 		connection.call(scheduleTopics.adaptFlexibility(uuid), request, SchedulingResponse.class, onResponse, onError, onCompleted);
 	}

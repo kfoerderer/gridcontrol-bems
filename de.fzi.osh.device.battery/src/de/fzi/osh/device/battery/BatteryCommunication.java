@@ -191,6 +191,10 @@ public class BatteryCommunication extends CommunicationInterface<Battery, Batter
 				}
 				power = power.substring(0, power.length() - 2) +  "}";
 				log.finest("[RPC] Adapt flexibility '" + parameters.id + "' with power=" + power + ".");
+				
+				// DEBUG
+				System.out.println("[RPC] Adapt flexibility '" + parameters.id + "' with power=" + power + ".");
+				
 				// try adaptation
 				SchedulingResponse response = new SchedulingResponse();
 				response.result = device.getScheduler().adaptScheduledFlexibility(parameters.id, parameters.power);

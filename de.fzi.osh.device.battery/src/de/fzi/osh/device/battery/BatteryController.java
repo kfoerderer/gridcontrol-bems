@@ -25,7 +25,7 @@ public class BatteryController extends de.fzi.osh.core.oc.Controller<Battery, Ba
 			long now = Time.service().now();
 
 			// negate value for matching sign with direction
-			short targetPower = (short) -component.getScheduler().getScheduledPower(now);
+			long targetPower = -component.getScheduler().getScheduledPower(now);
 			log.finest("Target power: " + targetPower + ".");
 			
 			// comply to SOC boundaries			
