@@ -148,16 +148,18 @@ public class Battery extends Device<Battery, BatteryConfiguration>  {
 				
 				// [device safety]
 				if(currentState.stateOfCharge < configuration.minStateOfCharge) {
-					scheduler.schedulePower(Time.service().now(), configuration.maxFlexibilityCharge);
-					setRealPower(-configuration.maxFlexibilityCharge);
+					int power = Math.min(configuration.maxFlexibilityCharge, configuration.socInterventionPower);
+					scheduler.schedulePower(Time.service().now(), power);
+					setRealPower(-power);
 					
-					log.warning("Passed lower SOC bound. Intervening.");
+					log.warning("Passed lower SOC bound. Charging with " + power + "W.");
 					intervention = true;
-				} else if( currentState.stateOfCharge > configuration.maxStateOfCharge) {
-					scheduler.schedulePower(Time.service().now(), -configuration.maxFlexibilityDischarge);
-					setRealPower(configuration.maxFlexibilityDischarge);
+				} else if(currentState.stateOfCharge > configuration.maxStateOfCharge) {
+					int power = -Math.min(configuration.maxFlexibilityDischarge, configuration.socInterventionPower);
+					scheduler.schedulePower(Time.service().now(), power);
+					setRealPower(-power);
 					
-					log.warning("Passed upper SOC bound. Intervening.");
+					log.warning("Passed upper SOC bound. Discharging with " + (-power) + "W.");
 					intervention = true;
 				} else {
 					if(intervention == true) {

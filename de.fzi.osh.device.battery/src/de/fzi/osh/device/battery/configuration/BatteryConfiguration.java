@@ -35,7 +35,11 @@ public class BatteryConfiguration extends Configuration {
 	/**
 	 * Max real power discharge flexibilities can provide
 	 */
-	public int maxFlexibilityDischarge = 2000;	
+	public int maxFlexibilityDischarge = 2000;
+	/**
+	 * Real power charge/discharge in W when SOC is out of bounds.
+	 */
+	public int socInterventionPower = 1000;
 	/**
 	 * Size of buffer applied in flexibility creation. 
 	 * Since the SOC can still change in between creation an scheduling of an flexibility, 
