@@ -116,7 +116,7 @@ public class ElectricityDemandForecastingService implements ForecastingService {
 				    	}
 						
 						// initialize iterator with begin of target day
-						ZonedDateTime dayInterator = from.truncatedTo(ChronoUnit.DAYS); 
+						ZonedDateTime dayIterator = from.truncatedTo(ChronoUnit.DAYS); 						
 						int nDays = 0;
 						for(int i = 0; i < configuration.numberOfDays; i++) {
 							// begin and end times of a day for time series retrieval
@@ -125,31 +125,41 @@ public class ElectricityDemandForecastingService implements ForecastingService {
 							
 							if(dayOfWeek == DayOfWeek.SATURDAY) {
 								// move begin back to previous Saturday
-								begin = dayInterator.minusDays(7);
+								begin = dayIterator.minusDays(7);
 								end = begin.plusDays(1);							
 							} else if(dayOfWeek == DayOfWeek.SUNDAY) {
 								// move begin back to previous Sunday
-								begin = dayInterator.minusDays(7);
+								begin = dayIterator.minusDays(7);
 								end = begin.plusDays(1);									
 							} else {
-								if(dayInterator.getDayOfWeek() == DayOfWeek.MONDAY) {
+								if(dayIterator.getDayOfWeek() == DayOfWeek.MONDAY) {
 									// move begin back to previous Friday
-									begin = dayInterator.minusDays(3);
+									begin = dayIterator.minusDays(3);
 									end = begin.plusDays(1);										
 								} else {
 									// move begin back to previous week day
-									begin = dayInterator.minusDays(1);
-									end = dayInterator;										
+									begin = dayIterator.minusDays(1);
+									end = dayIterator;										
 								}
 							}
-							dayInterator = begin;				
+							dayIterator = begin;
+							// check if day is in the future (which would lead to missing or incomplete time series) 
+							if(!dayIterator.isBefore(timeService.nowAsZonedDateTime().truncatedTo(ChronoUnit.DAYS))) {
+								i--;
+								continue;
+							}
+							
 							
 							NavigableMap<Integer, Integer> series = getSeries(begin, end);
-							
-							if(powers.size() == 0) {
+							  
+							if(series.size() == 0) {
 					    		log.warning("Empty result set for historical meter data. Ignoring day.");
 					    		continue;
 					    	}
+							
+							// debug
+							//NavigableMap<Integer, Integer> series = (NavigableMap<Integer, Integer>)((TreeMap<Integer, Integer>) powers).clone();
+							//series.replaceAll((k,v) -> { return v+2; });							
 					    	
 							// aggregate
 							final int numberOfDays = nDays;
@@ -170,6 +180,7 @@ public class ElectricityDemandForecastingService implements ForecastingService {
 							// increment number of days
 							nDays++;
 						}
+						final int numberOfDays = nDays;
 						
 						// check forecast
 				    	if(powers.entrySet().stream().filter(e -> e.getValue() > 0).count() == 0) {
@@ -178,7 +189,7 @@ public class ElectricityDemandForecastingService implements ForecastingService {
 				    		getSlpForecast = true;
 				    	} else {
 					    	// compile result
-					    	powers.forEach((k,v) -> demand.addWattage(v));
+					    	powers.forEach((k,v) -> demand.addWattage(v/numberOfDays));
 				    	}			    	
 					}
 				} catch(Exception e) {
@@ -301,7 +312,7 @@ public class ElectricityDemandForecastingService implements ForecastingService {
 		profile.load(configuration.standardLoadProfile);
 		
 		// DEBUG:
-		getForecast(ZonedDateTime.parse("2017-06-08T00:00:00+02:00"), ZonedDateTime.parse("2017-06-09T00:00:00+02:00"), ElectricityDemandForecast.class, null);
+		getForecast(ZonedDateTime.parse("2018-08-03T00:00:00+02:00"), ZonedDateTime.parse("2018-08-04T00:00:00+02:00"), ElectricityDemandForecast.class, null);
 	}
 
 	@Deactivate
