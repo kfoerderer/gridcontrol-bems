@@ -1,10 +1,6 @@
 # gridcontrol-bems
 The building energy management system (BEMS) that has been devloped for the research project [grid-control](http://projekt-grid-control.de/). 
 
-__Please Note:__
-- We are still updating and fixing bugs at this stage of the project
-- More Information will follow
-
 
 One central goal of grid-control is the impementation of the BDEW smart grid traffic light concept that assigns traffic light phases to each network semgent.
 
@@ -20,23 +16,29 @@ During a red traffic light phase the BEMS interrupts its normal operation and co
 ## Flexibility Interface
 
 Flexibility  is expressed as corridors of power and energy:
-Power at time t: 𝑝(𝑡)∈[▁𝑃 (𝑡),𝑃 ̅(𝑡)]
-Energy flow till time t: 𝑒(𝑡)∈[▁𝐸 (𝑡),𝐸 ̅(𝑡)  ]
+- Power at time t: 𝑝(𝑡)∈[P̲ (𝑡),P̅(𝑡)]
+- Energy flow till time t: 𝑒(𝑡)∈[E̲ (𝑡),E̅(𝑡)]
+
 Either power or energy is chosen during optimization while the remaining value defines a restriction. Additional restrictions can be added.
 
-<img alt="Flexibility Interface" src="./de.fzi.osh.documentation/flexibility-interface.png" style="float: left; margin-right: 5%; width: 50%"/>
+<img alt="Communication of energetic flexibility" src="./de.fzi.osh.documentation/flexibility-interface.png" width="50%" />
 
 The BEMS offers an aggregated flexibility to the associated market participant (MP):
 1. Flexibility is determined by stand-alone drivers based on forecasts, user inputs and other operational restrictions.
-1. Flexibility is collected by the BEMS.
-1. Based on forecasts, self-consumption is maximized and the resulting device schedules are used to determine an aggregated flexibility.
-1. Planned device schedules are passed to the drivers.
-1. Planned schedule and aggregated flexibility (with 𝑓(𝑡)≡0 representing the planned schedule) are send separately to the MP.
-1. The MP decides on their flexibility demand and tells the BEMS.
-1. The BEMS fulfils the MP‘s choice in real-time by adapting the schedules.
+2. Flexibility is collected by the BEMS.
+3. Based on forecasts, self-consumption is maximized and the resulting device schedules are used to determine an aggregated flexibility.
+4. Planned device schedules are passed to the drivers.
+5. Planned schedule and aggregated flexibility (with 𝑓(𝑡)≡0 representing the planned schedule) are send separately to the MP.
+6. The MP decides on their flexibility demand and tells the BEMS.
+7. The BEMS fulfils the MP‘s choice in real-time by adapting the schedules.
 
-<div style="clear: both"></div>
+Please see the [documentation](./de.fzi.osh.documentation) for more details.
 
-##Links
+## Links
+
+[Project grid-control](http://projekt-grid-control.de/)
 
 [Demo Abstract, 2017](https://www.springerprofessional.de/demo-abstract-a-building-energy-management-system-in-the-context/14230544)
+
+[Documentation](./de.fzi.osh.documentation)
+
