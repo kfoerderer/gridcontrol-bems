@@ -104,6 +104,7 @@ Das Auslesen der Informationen des Batteriespeichers und auch das Schreiben erfo
 |System Error Codes (systemErrorCode)|Register 236 - 239|
 
 Folgende Informationen werden zu dem Speicher geschrieben:
+
 |Information|Register|Anmerkungen|
 |---|---|---|
 |Zielwirkleistung (realPowerReq)|Register 32|
