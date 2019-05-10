@@ -7,4 +7,3 @@
 
 ## Additional resources (in German)
 - [Systembeschreibung des GEMS](systembeschreibung/readme.md)
-- 

@@ -1,5 +1,5 @@
-# gridcontrol-bems
-The building energy management system (BEMS) that has been devloped for the research project [grid-control](http://projekt-grid-control.de/). 
+# grid-control, BEMS
+The building energy management system (BEMS) that has been devloped for the research project [__grid-control__](http://projekt-grid-control.de/). 
 
 
 One central goal of grid-control is the impementation of the BDEW smart grid traffic light concept that assigns traffic light phases to each network semgent.
@@ -32,13 +32,17 @@ The BEMS offers an aggregated flexibility to the associated market participant (
 6. The MP decides on their flexibility demand and tells the BEMS.
 7. The BEMS fulfils the MP‘s choice in real-time by adapting the schedules.
 
+## Documentation
+
 Please see the [documentation](./de.fzi.osh.documentation) for more details.
 
-## Links
+For a documentation in German, please follow this link: <br/>
+[__Hier geht es zur deutschen Systembeschreibung des GEMS__](./de.fzi.osh.documentation/systembeschreibung/readme.md)
+
+## External Links
 
 [Project grid-control](http://projekt-grid-control.de/)
 
 [Demo Abstract, 2017](https://www.springerprofessional.de/demo-abstract-a-building-energy-management-system-in-the-context/14230544)
 
-[Documentation](./de.fzi.osh.documentation)
 
