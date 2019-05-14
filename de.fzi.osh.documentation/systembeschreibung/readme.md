@@ -1,3 +1,5 @@
+# Systembeschreibung - Gebäude-Energiemanagementsystem
+
 __Inhalt:__
 
 - __Systembeschreibung - Gebäude-Energiemanagementsystem__
@@ -20,6 +22,7 @@ __Inhalt:__
 	- [Der Optimierungsprozess](#functions_optimization)
 	- [Flexibilität](#functions_flexibility)
 	- [Prognose](#functions_forecasts)
+	- [Output/ Ausgangsgrößen](#functions_output)
 	- [Visualisierung](#functions_visualization)
 	- [Datenablage](#functions_data-storage)
 	- [Offene Use Cases/ Forschungsbedarf der Out Of Scope war](#functions_out-of-scope)
@@ -29,13 +32,12 @@ __Inhalt:__
     - [Prognosegüte](#results_forecasts)
 - [Literatur](#references)
 
-# Systembeschreibung - Gebäude-Energiemanagementsystem
-
 <a name="concept"></a>
 ## Konzeptbeschreibungen
 
 Das Gebäude-Energiemanagementsystemen (GEMS) ermöglicht durch die Koordination von Erzeugern, Verbrauchern und Speichersystemen nicht nur eine lokal optimierte Energienutzung, sondern auch die Erstellung von Einspeise- und Verbrauchsprognosen, sowie die Bereitstellung von Flexibilitätspotentialen für die Marktseite. In einer zukünftigen Anwendung wird das GEMS entweder durch die Prosumer selbst erworben und betrieben, z.B. mit dem Ziel Energiekosten zu sparen, oder von der Energiemarktseite zur Verfügung gestellt. 
-Die primäre Aufgabe des im Rahmen von grid-control adaptierten GEMS ist die Steuerung der im Gebäude oder auch Haushalt verfügbaren Geräte unter Einhaltung der lokalen Restriktionen. Im Folgenden wird der Einfachheit wegen nur noch von Gebäuden gesprochen. Die Flexibilität, welche sich aus den Möglichkeiten zur Steuerung der flexiblen Anlagen ergibt, wird für zweierlei Ziele genutzt. Zunächst werden in der Planung lokale Ziele, welche beispielsweise durch den Prosumer vorgegeben sind, möglichst gut erfüllt. Im Rahmen des Projekts wurde im Sinne des Prosumers der Eigenverbrauch als Zielgröße gewählt, was bei einem fixen Stromtarif im Zusammenhang mit den eingesetzten Anlagen die Energiekosten minimiert. Das sich aus dieser Planung ergebende Lastprofil des gesamten Gebäudes dient dann als Referenz für das Angebot der Flexibilität. Die angebotene Flexibilität ergibt sich aus der in der Planung verfügbaren Flexibilität. In Abhängigkeit der Verträge zwischen Prosumer und Marktteilnehmer kann dieses Angebot durch das GEMS beschränkt werden, so dass in den beiden Extremfällen dem Marktteilnehmer entweder die komplette Flexibilität oder keine Flexibilität angeboten wird. Die Erbringung der Flexibilität wird gemessen am tatsächlich realisierten Lastprofil des Gebäudes. Findet kein Abruf statt, so wird das Lastprofil entsprechend der Planung realisiert, um Planungssicherheit im Verteilnetz zu gewährleisten. Der Austausch von Informationen zur Flexibilität findet möglichst generisch statt. Es ist daher möglich beliebige Geräte im Gebäude zu integrieren. Im Projekt beschränkte sich das Flexibilitätsangebot jedoch nur auf einzelne Batteriespeicher verteilt auf verschiedene GEMSe. Lokal vorhandene Flexibilität wird nur als Aggregat an dem Marktteilnehmer kommuniziert. Bei einem Angebot aus einem Gerätepool wird so die gezielte Steuerung von Geräten durch den Marktteilnehmer erschwert und somit die Autonomie des Gebäudes erhöht. Um Eingriffe durch den Netzbetreiber bei einer roten Ampelphase zu ermöglichen bietet das GEMS eine Schnittstelle an über die Steuerbefehle entgegengenommen werden können. Auf Verlangen des Netzbetreibers wird dann, durch das GEMS, der planmäßige Betrieb unterbrochen und die Steuerung entsprechend der Vorgabe umgesetzt. Das GEMS gibt jedoch zu keinem Zeitpunkt die Kontrolle auf.
+
+Die primäre Aufgabe des im Rahmen von grid-control adaptierten GEMS ist die Steuerung der im Gebäude oder auch Haushalt verfügbaren Geräte unter Einhaltung der lokalen Restriktionen  von Gebäude, EMT und Bewohner. Im Folgenden wird der Einfachheit wegen nur noch von Gebäuden gesprochen. Die Flexibilität, welche sich aus den Möglichkeiten zur Steuerung der flexiblen Anlagen ergibt, wird für zweierlei Ziele genutzt. Zunächst werden in der Planung lokale Ziele, welche beispielsweise durch den Prosumer vorgegeben sind, möglichst gut erfüllt. Im Rahmen des Projekts wurde im Sinne des Prosumers der Eigenverbrauch als Zielgröße gewählt, was bei einem fixen Stromtarif im Zusammenhang mit den eingesetzten Anlagen (Erzeuger, Speicher, Verbraucher) die Energiekosten minimiert. Das sich aus dieser Planung ergebende Lastprofil des gesamten Gebäudes dient dann als Referenz für das Angebot der Flexibilität. Die angebotene Flexibilität ergibt sich aus der in der Planung verfügbaren Flexibilität. In Abhängigkeit der Verträge zwischen Prosumer und Marktteilnehmer kann dieses Angebot durch das GEMS beschränkt werden, so dass in den beiden Extremfällen dem Marktteilnehmer entweder die komplette Flexibilität oder keine Flexibilität angeboten wird. Die Erbringung der Flexibilität wird gemessen am tatsächlich realisierten Lastprofil des Gebäudes. Findet kein Abruf statt, so wird das Lastprofil entsprechend der Planung realisiert, um Planungssicherheit im Verteilnetz zu gewährleisten. Der Austausch von Informationen zur Flexibilität findet möglichst generisch statt. Es ist daher möglich beliebige Geräte im Gebäude zu integrieren. Im Projekt beschränkte sich das Flexibilitätsangebot jedoch nur auf einzelne Batteriespeicher verteilt auf verschiedene GEMSe. Lokal vorhandene Flexibilität wird nur als Aggregat an dem Marktteilnehmer kommuniziert. Bei einem Angebot aus einem Gerätepool wird so die gezielte Steuerung von Geräten durch den Marktteilnehmer erschwert und somit die Autonomie des Gebäudes erhöht. Um Eingriffe durch den Netzbetreiber bei einer roten Ampelphase zu ermöglichen bietet das GEMS eine Schnittstelle an über die Steuerbefehle entgegengenommen werden können. Auf Verlangen des Netzbetreibers wird dann, durch das GEMS, der planmäßige Betrieb unterbrochen und die Steuerung entsprechend der Vorgabe umgesetzt. Das GEMS gibt jedoch zu keinem Zeitpunkt die Kontrolle auf.
 Um dem Prosumer auch abseits der Steuerung von Geräten einen Mehrwert zu bieten und somit auch die Akzeptanz zu erhöhen, bietet das GEMS eine simple Nutzeroberfläche zum Betrachten der Stromflüsse an auf die per Einwahl in ein geschütztes WLAN zugegriffen werden kann.
  
 <a name="interfaces"></a>
@@ -50,7 +52,7 @@ Eine kurze Übersicht der nicht GEMS-eigenen Systeme kann der folgenden Tabelle 
 |Flexibilitätsmanagementsystem (FMS)|System des externen Marktteilnehmers (EMT) zur Erfassung und beeinflussung der vorhandenen Flexibilität|
 |Regionales-Energiemanagementsystem (REMS)|Kann steuernd eingreifen sobald eine rote Ampelphase eintritt|
 |Grid-Control-Unit (GCU)|Erweiterungsmodul das die Kommunikation mit dem REMS ermöglicht|
-|netfiles|Dateiablage auf die mittels SFTP zugegriffen wird. Sie dient dem Austausch von Daten.|
+|netfiles|Datenaustauschplattform auf die mittels SFTP zugegriffen wird. Sie dient dem Austausch von Daten.|
 
 Der GEMS-Kern selbst ist vom Organic Smart Home (OSH) abgeleitet und nutzt die Zeitreihendatenbank _influxdb_, sowie die Kommunikationsplattform  _Crossbar_.
 
@@ -116,13 +118,13 @@ Folgende Informationen werden zu dem Speicher geschrieben:
 <a name="interfaces_fms"></a>
 ### Flexibilitätsmanagementsystem
 
-Die Kommunikation zwischen dem Flexibilitätsmanagementsystem (FMS) und GEMS erfolgt ebenso über die Dateiablage und das SFTP-Protokoll. Die Daten werden als Dateien im Datenformat „DataLink Format 4“ aus dem Hause seven2one ausgetauscht.
+Die Kommunikation zwischen dem Flexibilitätsmanagementsystem (FMS) und GEMS erfolgt ebenso über die Datenaustauschplattform und das SFTP-Protokoll. Die Daten werden als Dateien im Datenformat „DataLink Format 4“ aus dem Hause seven2one ausgetauscht.
 
 Das GEMS nutzt das Verzeichnis __(FZI/)GEMS_FMS/VZP/DATEI__, wobei __VZP__ einen virtueller Zählpunkt (vZP) und somit ein GEMS-spezifisches Unterverzeichnis darstellt. __DATEI__ entspricht dem Namen der eigentlichen Datei. Das FMS nutzt in analoger Vorgehensweise das Verzeichnis __(seven2one/)FMS_Export/VZP/DATEI__.
 
 #### GEMS zu FMS
 
-Indem die gegebenenfalls vorhandene alte Datei mit gleichem Namen überschrieben wird, legt das GEMS auf der Dateiablage folgende Dateien ab:
+Indem die gegebenenfalls vorhandene alte Datei mit gleichem Namen überschrieben wird, legt das GEMS auf der Datenaustauschplattform folgende Dateien ab:
 - Den initialen Fahrplan und Flexibilität als „schedule_initial.csv“ 
 - Ein Update des Fahrplan und Flexibilität als „schedule_update.csv“
 - Den Trigger „Wunschfahrplan abgelehnt“ als „schedule_request_denied.csv“ 
@@ -178,7 +180,7 @@ Genauere Erklärungen zur Flexibilität folgen im Abschnitt [Flexibilität](#fun
 ### Datenspeicher zur Erfassung von Messwerten
 
 Das GEMS speichert die von den Zählern erfassten Messwerte gemäß dem hinterlegten Abfrageintervall von einer Sekunde in eine Influxdb. Bei Influxdb handelt es sich um eine Datenbank speziell für die Verarbeitung von Zeitreihen.
-Zur Archivierung und Verfügbarmachung der Messwerte wird ebenfalls die Dateiablage genutzt, wobei der Zugriff über das SFTP Protokoll erfolgt.
+Zur Archivierung und Verfügbarmachung der Messwerte wird ebenfalls die Datenaustauschplattform genutzt, wobei der Zugriff über das SFTP Protokoll erfolgt.
 In jeder Nacht, zu einer zufälligen Zeit zwischen 3 und 4 Uhr, um Überlastungen im Funknetz zu vermeiden, werden die Messdaten aus der Influxdb in 1-minütiger Auflösung an den Datenspeicher übertragen.
 
 
@@ -194,7 +196,7 @@ Informationen zu Zählern, dem Batteriespeicher und der Ladesäule werden mittel
 <a name="interfaces_control"></a>
 ### Zusätzliche externe Steuerbefehle 
 
-Um das GEMS für Testzwecke beeinflussen zu können wurde eine Steuerungsschnittstelle geschaffen. Diese kann mit Hilfe der Dateiablage angesprochen werden. Der Zugriff auf die Dateiablage erfolgt über das SFTP Protokoll. Steuerbefehle werden durch eine Steuerdatei („execute.csv“) abgelegt. Das GEMS überprüft alle 5 Minuten, ob eine neue Datei vorhanden ist. Falls dies der Fall ist, wird diese heruntergeladen und umgesetzt. Dem Dateinamen wird anschließend vom GEMS der aktuelle Zeitstempel vorangestellt, um diese Datei so zu archivieren und ein erneutes Herunterladen zu verhindern.
+Um das GEMS für Testzwecke beeinflussen zu können wurde eine Steuerungsschnittstelle geschaffen. Diese kann mit Hilfe der Datenaustauschplattform angesprochen werden. Der Zugriff auf die Datenaustauschplattform erfolgt über das SFTP Protokoll. Steuerbefehle werden durch eine Steuerdatei („execute.csv“) abgelegt. Das GEMS überprüft alle 5 Minuten, ob eine neue Datei vorhanden ist. Falls dies der Fall ist, wird diese heruntergeladen und umgesetzt. Dem Dateinamen wird anschließend vom GEMS der aktuelle Zeitstempel vorangestellt, um diese Datei so zu archivieren und ein erneutes Herunterladen zu verhindern.
 
 In der Steuerdatei enthält jede Zeile einen Befehl, wobei Leerzeilen und mit „#“ beginnende Zeilen ignoriert werden.
 
@@ -349,8 +351,8 @@ Im Falle der Zielerreichungsoptimierung fließt der vorgegebene Fahrplan mit in 
 
 #### Eigenverbrauchsoptimierung
 
-Die Eigenverbrauchs-Optimierung erfolgt am Vortag für den kompletten Folgetag und als Ergebnis werden der initiale Fahrplan und die Flexibilität als „schedule_initial.csv“ auf der Dateiablage für das FMS abgelegt. 
-Die Eigenverbrauchs-Optimierung kann außerdem gestartet werden, wenn die Abweichung vom aktuell vorgegebenen Fahrplan größer als eine vordefinierte Schranke ist. Diese Optimierung findet (in der im Feld genutzten Konfiguration) frühestens alle 12 Stunden statt und als Ergebnis wird ein Update des Fahrplans als „schedule_update.csv“ auf der Dateiablage abgelegt.
+Die Eigenverbrauchs-Optimierung erfolgt am Vortag für den kompletten Folgetag und als Ergebnis werden der initiale Fahrplan und die Flexibilität als „schedule_initial.csv“ auf der Datenaustauschplattform für das FMS abgelegt. 
+Die Eigenverbrauchs-Optimierung kann außerdem gestartet werden, wenn die Abweichung vom aktuell vorgegebenen Fahrplan größer als eine vordefinierte Schranke ist. Diese Optimierung findet (in der im Feld genutzten Konfiguration) frühestens alle 12 Stunden statt und als Ergebnis wird ein Update des Fahrplans als „schedule_update.csv“ auf der Datenaustauschplattform abgelegt.
 Das Ziel dieser Optimierung ist stets die Maximierung des Eigenverbrauchs. Außerdem dienen die resultierenden Fahrpläne für die einzelnen Geräte zur Festlegung der aggregierten Flexibilität, welche zur Kommunikation mit dem FMS genutzt wird.
 
 #### Zielerreichungsoptimierung
@@ -358,10 +360,10 @@ Das Ziel dieser Optimierung ist stets die Maximierung des Eigenverbrauchs. Auße
 Die Zielerreichungsoptimierung hat zum Ziel, den vorgegebenen Fahrplan „schedule_target.csv“ oder gegebenenfalls das Update des Fahrplans „schedule_target_update.csv“ möglichst exakt einzuhalten.
 
 Diese Optimierung beginnt, wenn einer der folgenden Fälle eintritt, mit der Einschränkung, dass sie frühestens nach 15 Minuten wieder durchgeführt werden darf.
-	Ein neuer Zielfahrplan oder ein Update wurde von FMS erhalten
-	Es ist Mitternacht
-	Die Flexibilität hat sich geändert
-	Die dynamische Flexibilitätsanpassung schlug fehl
+- Ein neuer Zielfahrplan oder ein Update wurde von FMS erhalten
+- Es ist Mitternacht
+- Die Flexibilität hat sich geändert
+- Die dynamische Flexibilitätsanpassung schlug fehl
 
 Nach der Optimierung wird die erwartete maximale Abweichung vom Zielfahrplan ausgewertet. Falls sich der Betrag der maximalen Abweichung über einer vordefinierten Schranke befindet, wird eine erneute Eigenverbrauchsoptimierung gestartet, um ein Update des eigenen Fahrplans und der Flexibilität an das FMS zu senden. Dieses kann nun einen neuen, aktualisierten Zielfahrplan bereitstellen. Diese Updatefunktion wurde jedoch nicht im Rahmen des Projekts genutzt.
 
@@ -409,14 +411,14 @@ Am Vortag wir ein Flexibilitätsabbild für den folgenden Tag erstellt. Dieses w
 
 Die aggregierte Flexibilität der externen Modellierung gibt an, wie sehr vom Plan abgewichen werden kann. Dabei fallen Dauer und Stoppzeit weg, sodass nur der Leistungs- und Energiekorridor bleibt. Diese werden durch Aufaddieren der einzelnen Flexibilität erzeugt, was sich hier im Modell einfach realisieren lässt, da Stoppzeit und Dauer nicht variabel genutzt werden. Es ist jedoch zu beachten, dass der Leistungskorridor ggf. eingeschränkt werden muss, da in besonderen Fällen sonst die aggregierte Flexibilität größer als die tatsächlich vorhandene Flexibilität ist.
 
-Output/ Ausgangsgrößen (z.B. Durchführung von Steuerbefehlen) 
-Als Output werden Steuerbefehle an den Batterietreiber geschickt. Der initiale Fahrplan und Flexibilität werden ebenso als Output für das FMS auf der Dateiablage abgelegt. Die Messwerte werden in der InfluxDB in kurzen Abständen gespeichert und in einem externen Datenspeicher in größeren Abständen (siehe oben).
-
-
 <a name="functions_forecasts"></a>
 ### Prognose
 
 Um Fahrpläne und die Flexibilität prognostizieren zu können benötigt das GEMS Prognosen von Verbrauch und PV-Erzeugung. Beide Prognosen werden auf Basis historischer Daten generiert. Hierzu werden die letzten n typgleichen Tage aus der Vergangenheit herangezogen. Typen können beispielsweise Wochentag, Samstag und Sonntag sein. An einem Samstag ist der zu prognostizierende Tag ein Sonntag und die vergangenen _n_ Sonntage werden in die Prognose mit einfließen. Da hinsichtlich der Sonneneinstrahlung keine direkte Abhängigkeit vom Wochentag existiert, werden in der PV-Prognose schlicht die letzten _n_ Tage berücksichtigt. Falls nicht alle notwendigen Daten vorliegen nutzt das GEMS die letzten _k_&lt;_n_ vollständig vorliegen Tage.
+
+<a name="functions_output"></a>
+### Output/ Ausgangsgrößen (z.B. Durchführung von Steuerbefehlen) 
+Als Output werden Steuerbefehle an den Batterietreiber geschickt. Der initiale Fahrplan und Flexibilität werden ebenso als Output für das FMS auf der Datenaustauschplattform abgelegt. Die Messwerte werden in der InfluxDB in kurzen Abständen gespeichert und in einem externen Datenspeicher in größeren Abständen (siehe oben).
 
 
 <a name="functions_visualization"></a>
@@ -432,9 +434,9 @@ In einer Detailansicht kann man die Stromflüsse über der letzten 24 Stunden be
 ![Visualisierung Screenshot 2](ui2.png)
 
 <a name="functions_data-storage"></a>
-### Datenablage
+### Datenaustauschplattform
 
-Der Austausch zwischen GEMS und den externen Systemen erfolgt über die Dateiablage und wird in den jeweiligen Kapiteln in diesem Dokument beschrieben.
+Der Austausch zwischen GEMS und den externen Systemen erfolgt über die Datenaustauschplattform und wird in den jeweiligen Kapiteln in diesem Dokument beschrieben.
 
 
 <a name="functions_out-of-scope"></a>
@@ -519,9 +521,9 @@ Bezüglich der PV Produktion ergibt sich folgendes Bild:
 
 Nicht enthalten sind 18.556 Prognosen mit einem Fehler kleiner 100 Watt, da diese ansonsten die Verteilung stark dominieren und so das Bild verzerren. Die hohe Anzahl ist darin begründet, dass die korrekte Vorhersage bei Nacht trivial ist. Durch das Filtern sind außerdem die Stromflüsse von bis zu 28 W, welche nachts in entgegengesetzter Richtung aufgetreten aus der Auswertung herausgenommen. Das untere und obere Quartil sind in diesem Fall bei -0.83 kW und 0.92 kW. Dies bedeutet, dass über 50% der Prognosen einen Fehler von weniger als 0.92kW aufweisen. Die größte gemessene Einspeisung lag bei 11,74 kW. Die größten Fehler bei etwa 10kW entsprechen somit einer extrem starken Fehlprognose und sind durch Wetterumbrüche (Verdunklung durch Wolken) zu erklären. Hierzu muss nicht zwangsläufig durchgehend schlechtes oder gutes Wetter vorherrschen, es genügt, wenn wenige zerstreute Wolken an mehreren Tagen zufällig zur gleichen Zeit die Anlage stark verdunkeln. So z.B. für die hier betrachtete Anlage Enge August 2018 wiederholt geschehen. Folglich könnte die PV Prognose stark davon profitieren Wetterprognosen, insbesondere bezüglich der Bewölkung, mit einzubeziehen. 
 Zusammenfassend können beide Prognosen mit dem genutzten Verfahren nur eine ungefähre Basis zur Prognose der tatsächlich vorhandenen Flexibilität bilden. Für zukünftige Anwendungen ist dringend empfohlen mindestens eine der folgenden Weiterentwicklungen vorzunehmen:
-	Prognosealgorithmen verbessern
-	Prognoseungenauigkeit in der Planung berücksichtigen
-	Größere Puffer, um trotz unvorhergesehener Ereignisse wie erwartet reagieren zu können
+- Prognosealgorithmen verbessern
+- Prognoseungenauigkeit in der Planung berücksichtigen
+- Größere Puffer, um trotz unvorhergesehener Ereignisse wie erwartet reagieren zu können
 
 <a name="references"></a>
 # Literatur
