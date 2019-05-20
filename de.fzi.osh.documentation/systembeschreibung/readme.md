@@ -479,7 +479,8 @@ In manchen Haushalten wurden jedoch Überschusszähler installiert, welche den S
 <a name="results_provision"></a>
 ### Flexibilitätserbringung
 
-Der Feldtest zeigt, dass die durch dezentrale, private Energiemanagementsystem verwaltete Flexibilität kann gezielt durch übergeordnete Systeme gelenkt werden. Durch die Vorgabe von Ziel-Fahrplänen an das GEMS besteht eine erhöhte Planungssicherheit, sofern diese auch zuverlässig eingehalten werden. Folgende Box-Plots zeigen exemplarisch die Verteilung der tagesweise berechneten mittleren absoluten Fehler (MAE) von Ziel-Fahrplan und erbrachtem Lastprofil für den Zeitraum von August 2017 bis August 2018. Beide Gebäude (nummeriert nach dem virtuellen Zählpunkt) wurden mit einem Speicher ausgestattet, der mit bis zu 4,6kW Leistung (ent-)laden kann.
+Der Feldtest zeigt, dass die durch dezentrale, private Energiemanagementsystem verwaltete Flexibilität kann gezielt durch übergeordnete Systeme gelenkt werden. Durch die Vorgabe von Ziel-Fahrplänen an das GEMS besteht eine erhöhte Planungssicherheit, sofern diese auch zuverlässig eingehalten werden. Folgende Box-Plots zeigen exemplarisch die Verteilung der tagesweise berechneten mittleren absoluten Fehler (MAE) von Ziel-Fahrplan und erbrachtem Lastprofil für den Zeitraum von August 2017 bis August 2018. 
+Beide Gebäude, 7.1 und 10.1 (benannt nach dem virtuellen Zählpunkt), wurden mit einem Speicher ausgestattet, der mit bis zu 4,6kW Leistung (ent-)laden kann.
 
 ![Boxplot der MAE zu vZP7.1](provision_7_1_mae.png)
 ![Boxplot der MAE zu vZP10.1](provision_10_1_mae.png)
